@@ -5,10 +5,30 @@
 
 import fs from "fs";
 import path from "path";
-import mammoth from "mammoth";
-import pdfParse from "pdf-parse";
-import { encoding_for_model } from "tiktoken";
 import { config } from "@/lib/config";
+
+// Dynamic imports for optional dependencies
+let mammoth: any;
+let pdfParse: any;
+let tiktoken: any;
+
+try {
+  mammoth = require("mammoth");
+} catch {
+  // mammoth not available
+}
+
+try {
+  pdfParse = require("pdf-parse");
+} catch {
+  // pdf-parse not available
+}
+
+try {
+  tiktoken = require("tiktoken");
+} catch {
+  // tiktoken not available
+}
 
 export interface DocumentChunk {
   id: string;
@@ -37,10 +57,16 @@ export async function extractTextFromFile(filePath: string): Promise<string> {
       return buffer.toString("utf-8");
 
     case ".docx":
+      if (!mammoth) {
+        throw new Error("mammoth package is required for .docx files. Install with: npm install mammoth");
+      }
       const docxResult = await mammoth.extractRawText({ buffer });
       return docxResult.value;
 
     case ".pdf":
+      if (!pdfParse) {
+        throw new Error("pdf-parse package is required for .pdf files. Install with: npm install pdf-parse");
+      }
       const pdfData = await pdfParse(buffer);
       return pdfData.text;
 
@@ -58,7 +84,11 @@ export async function extractTextFromFile(filePath: string): Promise<string> {
  */
 export function countTokens(text: string, model: string = "gpt-4"): number {
   try {
-    const encoding = encoding_for_model(model as any);
+    if (!tiktoken) {
+      // Fallback: rough estimate (1 token ≈ 4 characters)
+      return Math.ceil(text.length / 4);
+    }
+    const encoding = tiktoken.encoding_for_model(model);
     const tokens = encoding.encode(text);
     encoding.free();
     return tokens.length;
@@ -266,15 +296,40 @@ function isLeadRelevant(content: string): boolean {
 
 /**
  * Load and process document
+ * In serverless environments, tries to load from environment variable first
  */
 export async function loadDocument(filePath?: string): Promise<string> {
+  // Try environment variable first (for serverless/Vercel)
+  if (process.env.DOCUMENT_CONTENT) {
+    return process.env.DOCUMENT_CONTENT;
+  }
+
+  // Try fetching from URL if DOCUMENT_URL is set
+  if (process.env.DOCUMENT_URL) {
+    try {
+      const response = await fetch(process.env.DOCUMENT_URL);
+      if (response.ok) {
+        return await response.text();
+      }
+    } catch (error) {
+      console.warn("Failed to fetch document from URL:", error);
+    }
+  }
+
+  // Fallback to file system (only works in Node.js, not serverless)
   const docPath = filePath || config.documentPath;
   
-  if (!fs.existsSync(docPath)) {
-    throw new Error(`Document not found: ${docPath}`);
+  // Check if we're in a serverless environment
+  if (typeof window === "undefined" && fs && fs.existsSync) {
+    if (fs.existsSync(docPath)) {
+      return await extractTextFromFile(docPath);
+    }
   }
   
-  return await extractTextFromFile(docPath);
+  throw new Error(
+    `Document not found: ${docPath}. ` +
+    `For serverless deployment, set DOCUMENT_CONTENT or DOCUMENT_URL environment variable.`
+  );
 }
 
 /**
