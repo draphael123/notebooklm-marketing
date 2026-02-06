@@ -17,12 +17,18 @@ export function getPineconeClient(): Pinecone {
   }
 
   if (!pineconeClient) {
-    pineconeClient = new Pinecone({
+    // Pinecone v1.x uses serverless architecture - environment is deprecated
+    // TypeScript types may still require it, so we use type assertion
+    const config: any = {
       apiKey: process.env.PINECONE_API_KEY,
-      ...(process.env.PINECONE_ENVIRONMENT && {
-        environment: process.env.PINECONE_ENVIRONMENT,
-      }),
-    } as any);
+    };
+    
+    // Only add environment if explicitly provided (for legacy compatibility)
+    if (process.env.PINECONE_ENVIRONMENT) {
+      config.environment = process.env.PINECONE_ENVIRONMENT;
+    }
+    
+    pineconeClient = new Pinecone(config);
   }
 
   return pineconeClient;
