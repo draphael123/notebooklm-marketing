@@ -98,7 +98,7 @@ export default function ChatPage() {
           {messages.length === 0 && !isLoading && (
             <div className="text-center text-gray-500 py-12">
               <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-              <p>Ask me anything about Fountain's programs!</p>
+              <p>Ask me anything about Fountain&apos;s programs!</p>
             </div>
           )}
 

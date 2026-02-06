@@ -42,7 +42,7 @@ export default function Home() {
           >
             <div className="flex items-center justify-between p-4 border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer group">
               <span className="text-gray-500 group-hover:text-gray-700">
-                e.g., "How much does TRT cost?"
+                e.g., &quot;How much does TRT cost?&quot;
               </span>
               <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
             </div>
