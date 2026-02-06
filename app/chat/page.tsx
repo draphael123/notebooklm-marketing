@@ -52,7 +52,9 @@ function ChatContent() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response");
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.error || `Failed to get response (${response.status})`;
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
