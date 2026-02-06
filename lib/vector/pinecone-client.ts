@@ -19,7 +19,10 @@ export function getPineconeClient(): Pinecone {
   if (!pineconeClient) {
     pineconeClient = new Pinecone({
       apiKey: process.env.PINECONE_API_KEY,
-    });
+      ...(process.env.PINECONE_ENVIRONMENT && {
+        environment: process.env.PINECONE_ENVIRONMENT,
+      }),
+    } as any);
   }
 
   return pineconeClient;
