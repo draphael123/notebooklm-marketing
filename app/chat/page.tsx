@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import QuestionInput from "@/components/QuestionInput";
 import ResponseDisplay from "@/components/ResponseDisplay";
@@ -17,7 +17,8 @@ interface Message {
   relatedQuestions?: string[];
 }
 
-export default function ChatPage() {
+// Create a separate component for the content that uses useSearchParams
+function ChatContent() {
   const searchParams = useSearchParams();
   const initialQuestion = searchParams.get("q") || "";
   
@@ -173,6 +174,22 @@ export default function ChatPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// Main page component with Suspense
+export default function ChatPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center">
+        <div className="text-center">
+          <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300 animate-pulse" />
+          <p className="text-gray-500">Loading...</p>
+        </div>
+      </div>
+    }>
+      <ChatContent />
+    </Suspense>
   );
 }
 
