@@ -1,12 +1,20 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-if (!process.env.ANTHROPIC_API_KEY) {
-  throw new Error("ANTHROPIC_API_KEY is not set");
-}
+let anthropic: Anthropic | null = null;
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+function getAnthropicClient(): Anthropic {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    throw new Error("ANTHROPIC_API_KEY is not set");
+  }
+
+  if (!anthropic) {
+    anthropic = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    });
+  }
+
+  return anthropic;
+}
 
 export interface ChatMessage {
   role: "user" | "assistant";
@@ -19,7 +27,8 @@ export async function generateResponse(
   maxTokens: number = 1024
 ): Promise<string> {
   try {
-    const response = await anthropic.messages.create({
+    const client = getAnthropicClient();
+    const response = await client.messages.create({
       model: "claude-3-5-sonnet-20241022",
       max_tokens: maxTokens,
       system: systemPrompt,
@@ -48,7 +57,8 @@ export async function generateStreamingResponse(
   maxTokens: number = 1024
 ): Promise<void> {
   try {
-    const stream = await anthropic.messages.stream({
+    const client = getAnthropicClient();
+    const stream = await client.messages.stream({
       model: "claude-3-5-sonnet-20241022",
       max_tokens: maxTokens,
       system: systemPrompt,
