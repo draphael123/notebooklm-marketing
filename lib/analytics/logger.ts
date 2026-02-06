@@ -48,7 +48,7 @@ export async function logQuery(log: QueryLog): Promise<void> {
       user_feedback: log.userFeedback || null,
       client_id: log.clientId || null,
       created_at: new Date().toISOString(),
-    });
+    } as any);
 
     if (error) {
       console.error("Error logging query:", error);
