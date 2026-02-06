@@ -49,7 +49,7 @@ export async function upsertChunks(
   // Upsert in batches
   for (let i = 0; i < records.length; i += 100) {
     const batch = records.slice(i, i + 100);
-    const { error } = await supabase.from(tableName).upsert(batch, {
+    const { error } = await supabase.from(tableName).upsert(batch as any, {
       onConflict: "id",
     });
 
