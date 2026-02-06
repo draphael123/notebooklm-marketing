@@ -43,10 +43,7 @@
   },
   "overrides": {
     "glob": "^10.3.15",
-    "rimraf": "^5.0.5",
-    "inflight": "npm:@isaacs/inflight@^1.0.6",
-    "@humanwhocodes/object-schema": "npm:@eslint/object-schema@^2.1.0",
-    "@humanwhocodes/config-array": "npm:@eslint/config-array@^0.16.0"
+    "rimraf": "^5.0.5"
   }
 }
 
