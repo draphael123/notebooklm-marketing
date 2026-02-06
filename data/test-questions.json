@@ -1,0 +1,48 @@
+{
+  "categories": {
+    "pricing": [
+      "How much does TRT cost?",
+      "What are your pricing plans?",
+      "Why are you more expensive than competitors?",
+      "Do you offer payment plans?",
+      "What's the cheapest option?",
+      "Can I pay monthly?"
+    ],
+    "availability": [
+      "Do you operate in California?",
+      "What states do you serve?",
+      "Do you have labs in Texas?",
+      "Are you available in New York?",
+      "Where can I get my labs done?"
+    ],
+    "process": [
+      "How do I get started?",
+      "What's the sign-up process?",
+      "How long does it take?",
+      "What's included in the assessment?",
+      "What happens after I sign up?",
+      "When will I get my medication?"
+    ],
+    "programs": [
+      "What's the difference between TRT and HRT?",
+      "What's included in the subscription?",
+      "What medications do you offer?",
+      "How often are provider visits?",
+      "Can I switch programs?"
+    ],
+    "objections": [
+      "Do you accept insurance?",
+      "Why so expensive?",
+      "Can I just get testosterone?",
+      "What if I want to cancel?",
+      "Do you offer refunds?"
+    ],
+    "comparison": [
+      "How are you different from [competitor]?",
+      "Why choose Fountain?",
+      "What makes you better?",
+      "Do you have better prices?"
+    ]
+  }
+}
+
