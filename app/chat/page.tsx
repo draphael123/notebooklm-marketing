@@ -4,11 +4,8 @@ import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import QuestionInput from "@/components/QuestionInput";
 import ResponseDisplay from "@/components/ResponseDisplay";
-import SuggestedQuestions from "@/components/SuggestedQuestions";
 import RelatedQuestions from "@/components/RelatedQuestions";
-import FeedbackButtons from "@/components/FeedbackButtons";
-import { ArrowLeft, MessageCircle } from "lucide-react";
-import Link from "next/link";
+import { FileText, Sparkles } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -76,30 +73,31 @@ function ChatContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <Link
-            href="/"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-600" />
-          </Link>
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      {/* Header */}
+      <div className="bg-white border-b border-slate-200 sticky top-0 z-10">
+        <div className="container mx-auto px-4 py-4 max-w-4xl">
           <div className="flex items-center gap-3">
-            <MessageCircle className="w-6 h-6 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-900">
-              Fountain Q&A
+            <div className="flex items-center gap-2">
+              <FileText className="w-5 h-5 text-slate-700" />
+              <Sparkles className="w-4 h-4 text-slate-500" />
+            </div>
+            <h1 className="text-xl font-semibold text-slate-900">
+              Document Q&A
             </h1>
           </div>
         </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="flex-1 container mx-auto px-4 py-8 max-w-4xl flex flex-col">
         {/* Chat Messages */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 min-h-[400px] max-h-[600px] overflow-y-auto">
+        <div className="flex-1 mb-6 overflow-y-auto">
           {messages.length === 0 && !isLoading && (
-            <div className="text-center text-gray-500 py-12">
-              <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-              <p>Ask me anything about Fountain&apos;s programs!</p>
+            <div className="text-center text-slate-500 py-16">
+              <FileText className="w-16 h-16 mx-auto mb-4 text-slate-300" />
+              <p className="text-lg mb-2">Ask a question about your document</p>
+              <p className="text-sm">Get instant, accurate answers powered by AI</p>
             </div>
           )}
 
@@ -112,10 +110,10 @@ function ChatContent() {
                 }`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg p-4 ${
+                  className={`max-w-[85%] rounded-lg ${
                     message.role === "user"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-900"
+                      ? "bg-slate-900 text-white px-4 py-3"
+                      : "bg-white border border-slate-200 px-5 py-4 shadow-sm"
                   }`}
                 >
                   {message.role === "assistant" ? (
@@ -125,7 +123,7 @@ function ChatContent() {
                         sources={message.sources}
                       />
                       {message.relatedQuestions && message.relatedQuestions.length > 0 && (
-                        <div className="mt-4 pt-4 border-t border-gray-300">
+                        <div className="mt-4 pt-4 border-t border-slate-200">
                           <RelatedQuestions
                             questions={message.relatedQuestions}
                             onQuestionClick={handleQuestion}
@@ -134,7 +132,7 @@ function ChatContent() {
                       )}
                     </>
                   ) : (
-                    <p>{message.content}</p>
+                    <p className="text-white">{message.content}</p>
                   )}
                 </div>
               </div>
@@ -142,11 +140,11 @@ function ChatContent() {
 
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 rounded-lg p-4">
+                <div className="bg-white border border-slate-200 rounded-lg px-5 py-4 shadow-sm">
                   <div className="flex gap-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
                   </div>
                 </div>
               </div>
@@ -162,16 +160,13 @@ function ChatContent() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Question Input */}
-        <QuestionInput
-          onQuestionSubmit={handleQuestion}
-          disabled={isLoading}
-        />
-
-        {/* Suggested Questions (if no messages) */}
-        {messages.length === 0 && !isLoading && (
-          <SuggestedQuestions onQuestionClick={handleQuestion} />
-        )}
+        {/* Question Input - Fixed at bottom */}
+        <div className="bg-white border-t border-slate-200 pt-6">
+          <QuestionInput
+            onQuestionSubmit={handleQuestion}
+            disabled={isLoading}
+          />
+        </div>
       </div>
     </div>
   );
@@ -181,10 +176,10 @@ function ChatContent() {
 export default function ChatPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300 animate-pulse" />
-          <p className="text-gray-500">Loading...</p>
+          <FileText className="w-12 h-12 mx-auto mb-4 text-slate-300 animate-pulse" />
+          <p className="text-slate-500">Loading...</p>
         </div>
       </div>
     }>
@@ -192,4 +187,3 @@ export default function ChatPage() {
     </Suspense>
   );
 }
-

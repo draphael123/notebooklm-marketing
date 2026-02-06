@@ -1,38 +1,34 @@
 import Link from "next/link";
-import { ArrowRight, MessageCircle, DollarSign, MapPin, Clock, HelpCircle } from "lucide-react";
+import { FileText, Sparkles, ArrowRight } from "lucide-react";
 
 export default function Home() {
-  const popularQuestions = [
-    "What are your pricing plans?",
-    "Do you operate in my state?",
-    "What's included in the subscription?",
-    "How do I get started?",
-    "Do you accept insurance?",
-    "What's the difference between TRT, HRT, and GLP-1?",
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Fountain Vitality
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <FileText className="w-12 h-12 text-slate-700" />
+            <Sparkles className="w-10 h-10 text-slate-600" />
+          </div>
+          <h1 className="text-5xl font-bold text-slate-900 mb-4">
+            Document Q&A
           </h1>
-          <p className="text-2xl text-gray-600 mb-2">
-            Ask Us Anything
+          <p className="text-xl text-slate-600 mb-2">
+            Ask questions about your documents
           </p>
-          <p className="text-gray-500">
-            Get instant answers about our TRT, HRT, and GLP-1 programs
+          <p className="text-slate-500 max-w-2xl mx-auto">
+            Upload your documents and get instant, accurate answers powered by AI. 
+            Perfect for research, analysis, and understanding complex documents.
           </p>
         </div>
 
         {/* Main CTA */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+        <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-8 mb-12">
           <div className="flex items-center gap-3 mb-6">
-            <MessageCircle className="w-8 h-8 text-blue-600" />
-            <h2 className="text-2xl font-semibold text-gray-900">
-              What would you like to know?
+            <Sparkles className="w-6 h-6 text-slate-700" />
+            <h2 className="text-2xl font-semibold text-slate-900">
+              Start asking questions
             </h2>
           </div>
           
@@ -40,80 +36,53 @@ export default function Home() {
             href="/chat"
             className="block w-full"
           >
-            <div className="flex items-center justify-between p-4 border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer group">
-              <span className="text-gray-500 group-hover:text-gray-700">
-                e.g., &quot;How much does TRT cost?&quot;
+            <div className="flex items-center justify-between p-5 border-2 border-slate-300 rounded-lg hover:border-slate-400 hover:bg-slate-50 transition-all cursor-pointer group">
+              <span className="text-slate-600 group-hover:text-slate-900 text-lg">
+                Ask a question about your document...
               </span>
-              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+              <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-slate-600 group-hover:translate-x-1 transition-all" />
             </div>
           </Link>
         </div>
 
-        {/* Popular Questions */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <HelpCircle className="w-5 h-5" />
-            Popular Questions
+        {/* Features */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="bg-white p-6 rounded-lg border border-slate-200">
+            <FileText className="w-8 h-8 text-slate-700 mb-3" />
+            <h4 className="font-semibold text-slate-900 mb-2">Document Analysis</h4>
+            <p className="text-sm text-slate-600">
+              Ask questions about any document. Get precise answers based on the content.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg border border-slate-200">
+            <Sparkles className="w-8 h-8 text-slate-700 mb-3" />
+            <h4 className="font-semibold text-slate-900 mb-2">AI-Powered</h4>
+            <p className="text-sm text-slate-600">
+              Advanced AI understands context and provides accurate, relevant answers.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg border border-slate-200">
+            <ArrowRight className="w-8 h-8 text-slate-700 mb-3" />
+            <h4 className="font-semibold text-slate-900 mb-2">Instant Answers</h4>
+            <p className="text-sm text-slate-600">
+              Get answers in seconds. No need to search through pages of text.
+            </p>
+          </div>
+        </div>
+
+        {/* Example Questions */}
+        <div className="bg-slate-50 rounded-lg p-6 border border-slate-200">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">
+            Example questions you can ask:
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {popularQuestions.map((question, idx) => (
-              <Link
-                key={idx}
-                href={`/chat?q=${encodeURIComponent(question)}`}
-                className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-md transition-all text-left group"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-700 group-hover:text-blue-600">
-                    {question}
-                  </span>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all" />
-                </div>
-              </Link>
-            ))}
+          <div className="space-y-2 text-slate-600">
+            <p>• &quot;What are the main points in this document?&quot;</p>
+            <p>• &quot;Summarize the key findings&quot;</p>
+            <p>• &quot;What does this document say about [topic]?&quot;</p>
+            <p>• &quot;Explain the process described in the document&quot;</p>
           </div>
-        </div>
-
-        {/* Quick Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white p-6 rounded-lg border border-gray-200">
-            <DollarSign className="w-8 h-8 text-blue-600 mb-3" />
-            <h4 className="font-semibold text-gray-900 mb-2">Transparent Pricing</h4>
-            <p className="text-sm text-gray-600">
-              All-inclusive plans with no hidden fees
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg border border-gray-200">
-            <MapPin className="w-8 h-8 text-blue-600 mb-3" />
-            <h4 className="font-semibold text-gray-900 mb-2">Nationwide Coverage</h4>
-            <p className="text-sm text-gray-600">
-              Available in most states with lab partners
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg border border-gray-200">
-            <Clock className="w-8 h-8 text-blue-600 mb-3" />
-            <h4 className="font-semibold text-gray-900 mb-2">Quick Start</h4>
-            <p className="text-sm text-gray-600">
-              Get started in just a few days
-            </p>
-          </div>
-        </div>
-
-        {/* Footer CTA */}
-        <div className="text-center">
-          <p className="text-gray-600 mb-4">
-            Ready to begin your journey?
-          </p>
-          <a
-            href="https://fountain.net"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-          >
-            Start Your Assessment →
-          </a>
         </div>
       </div>
     </div>
   );
 }
-

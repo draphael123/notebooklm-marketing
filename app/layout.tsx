@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Fountain Vitality - Ask Us Anything",
-  description: "Get answers to your questions about Fountain's TRT, HRT, and GLP-1 programs",
+  title: "Document Q&A - Ask Questions About Your Documents",
+  description: "Ask questions about your documents and get instant, accurate answers powered by AI",
 };
 
 export default function RootLayout({

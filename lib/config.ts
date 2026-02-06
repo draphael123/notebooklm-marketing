@@ -52,3 +52,4 @@ export const defaultConfig: AppConfig = {
 
 export const config = defaultConfig;
 
+

@@ -5,12 +5,12 @@ interface SuggestedQuestionsProps {
 }
 
 const suggestedQuestions = [
-  "How much does TRT cost?",
-  "Do you operate in California?",
-  "What's included in the subscription?",
-  "How do I get started?",
-  "Do you accept insurance?",
-  "What's the difference between TRT and HRT?",
+  "What are the main points in this document?",
+  "Summarize the key findings",
+  "What topics does this document cover?",
+  "Explain the main concepts",
+  "What are the important details?",
+  "What conclusions are drawn?",
 ];
 
 export default function SuggestedQuestions({
@@ -18,15 +18,15 @@ export default function SuggestedQuestions({
 }: SuggestedQuestionsProps) {
   return (
     <div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Popular Questions
+      <h3 className="text-sm font-medium text-slate-600 mb-3">
+        Suggested questions:
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="flex flex-wrap gap-2">
         {suggestedQuestions.map((question, idx) => (
           <button
             key={idx}
             onClick={() => onQuestionClick(question)}
-            className="text-left p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all"
+            className="text-sm px-4 py-2 bg-white border border-slate-200 rounded-lg hover:border-slate-400 hover:bg-slate-50 transition-all text-slate-700"
           >
             {question}
           </button>
@@ -35,4 +35,3 @@ export default function SuggestedQuestions({
     </div>
   );
 }
-

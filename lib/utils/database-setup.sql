@@ -54,3 +54,4 @@ FROM query_logs
 GROUP BY DATE_TRUNC('day', created_at), intent
 ORDER BY date DESC, intent;
 
+

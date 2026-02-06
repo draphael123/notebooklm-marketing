@@ -98,35 +98,35 @@ export async function processQuery(
 
 function generateRelatedQuestions(intent: Intent, question: string): string[] {
   const relatedMap: Record<Intent, string[]> = {
-    pricing_inquiry: [
-      "What's included in the subscription?",
-      "Do you offer payment plans?",
-      "How does pricing compare to competitors?",
+    summary: [
+      "What are the key takeaways?",
+      "What are the main conclusions?",
+      "What are the important points?",
     ],
-    availability_check: [
-      "How do I get started?",
-      "What labs do you work with?",
-      "What's the process like?",
+    specific_info: [
+      "Can you provide more details?",
+      "What else does the document say about this?",
+      "Are there any related sections?",
+    ],
+    explanation: [
+      "Can you explain this in more detail?",
+      "What does this mean?",
+      "How does this work?",
     ],
     comparison: [
-      "What's included in your programs?",
-      "How does Fountain differ from other providers?",
-      "What makes Fountain unique?",
+      "What are the similarities?",
+      "What are the differences?",
+      "How do they compare?",
     ],
-    process_question: [
-      "How long does it take to get started?",
-      "What's included in the assessment?",
-      "What happens after I sign up?",
+    process: [
+      "What are the steps involved?",
+      "What comes next?",
+      "What is the complete process?",
     ],
-    objection: [
-      "What's included in the subscription?",
-      "Do you accept HSA/FSA?",
-      "Can I try it before committing?",
-    ],
-    general_info: [
-      "What are your pricing plans?",
-      "How do I get started?",
-      "Do you operate in my state?",
+    general: [
+      "What else should I know?",
+      "What are related topics?",
+      "What are the key concepts?",
     ],
   };
 

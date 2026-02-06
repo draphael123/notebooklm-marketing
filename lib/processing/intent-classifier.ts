@@ -2,72 +2,66 @@ import { generateResponse } from "@/lib/ai/claude-client";
 import { getIntentPrompt } from "@/lib/ai/prompts";
 
 export type Intent =
-  | "pricing_inquiry"
-  | "availability_check"
+  | "summary"
+  | "specific_info"
+  | "explanation"
   | "comparison"
-  | "process_question"
-  | "objection"
-  | "general_info";
+  | "process"
+  | "general";
 
 const INTENT_KEYWORDS: Record<Intent, string[]> = {
-  pricing_inquiry: [
-    "cost",
-    "price",
-    "pricing",
-    "how much",
-    "expensive",
-    "afford",
-    "payment",
-    "plan",
-    "$",
+  summary: [
+    "summarize",
+    "summary",
+    "overview",
+    "main points",
+    "key points",
+    "highlights",
+    "brief",
   ],
-  availability_check: [
-    "state",
-    "available",
-    "operate",
-    "location",
+  specific_info: [
+    "what",
+    "when",
     "where",
-    "coverage",
-    "service area",
-    "lab",
+    "who",
+    "which",
+    "details",
+    "specific",
+    "information",
+  ],
+  explanation: [
+    "explain",
+    "how",
+    "why",
+    "describe",
+    "clarify",
+    "understand",
+    "meaning",
   ],
   comparison: [
     "vs",
     "versus",
     "compare",
     "difference",
-    "better",
-    "competitor",
-    "alternative",
+    "similar",
+    "different",
+    "versus",
   ],
-  process_question: [
-    "start",
-    "begin",
-    "get started",
-    "how to",
+  process: [
     "process",
-    "timeline",
-    "assessment",
-    "sign up",
+    "steps",
+    "procedure",
+    "how to",
+    "method",
+    "workflow",
+    "flow",
   ],
-  objection: [
-    "why",
-    "but",
-    "concern",
-    "worry",
-    "insurance",
-    "refund",
-    "cancel",
-    "too expensive",
-  ],
-  general_info: [
-    "what",
-    "offer",
-    "include",
-    "program",
-    "service",
-    "do you",
+  general: [
     "tell me",
+    "about",
+    "information",
+    "know",
+    "learn",
   ],
 };
 
@@ -98,7 +92,8 @@ export async function classifyIntent(question: string): Promise<Intent> {
     console.error("Error classifying intent:", error);
   }
 
-  // Default to general_info
-  return "general_info";
+  // Default to general
+  return "general";
 }
+
 
