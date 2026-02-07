@@ -53,9 +53,11 @@ async function retrieveSimple(
     try {
       fullText = await loadDocument();
     } catch (error) {
-      // If document loading fails, return mock data
-      console.warn("Failed to load document, using fallback:", error);
-      return getMockChunks(intent);
+      // Re-throw with more context instead of using fallback
+      if (error instanceof Error) {
+        throw new Error(`Document loading failed: ${error.message}`);
+      }
+      throw new Error("Document not found. Please set DOCUMENT_CONTENT or DOCUMENT_URL in Vercel environment variables.");
     }
     
     // If document is small enough, return it all

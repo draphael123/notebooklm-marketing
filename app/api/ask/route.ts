@@ -55,18 +55,53 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if it's an API key error
+    // Check for specific error types and provide helpful messages
     if (error instanceof Error) {
-      if (error.message.includes("API_KEY") || error.message.includes("api key")) {
+      const errorMessage = error.message.toLowerCase();
+      
+      // API key errors
+      if (errorMessage.includes("api_key") || errorMessage.includes("api key") || errorMessage.includes("anthropic_api_key")) {
         return NextResponse.json(
-          { error: "AI service configuration error. Please check your API keys." },
+          { error: "AI service configuration error. Please check your API keys in Vercel environment variables." },
+          { status: 500 }
+        );
+      }
+      
+      // Document not found errors
+      if (errorMessage.includes("document not found") || errorMessage.includes("document not available")) {
+        return NextResponse.json(
+          { error: "Document not found. Please add DOCUMENT_CONTENT or DOCUMENT_URL to Vercel environment variables." },
+          { status: 500 }
+        );
+      }
+      
+      // Document loading errors (Google Drive, URL fetch failures)
+      if (errorMessage.includes("failed to fetch") || errorMessage.includes("failed to load document")) {
+        return NextResponse.json(
+          { error: "Failed to load document from URL. Please check that your Google Drive document is set to 'Anyone with the link can view'." },
+          { status: 500 }
+        );
+      }
+      
+      // Network/timeout errors
+      if (errorMessage.includes("timeout") || errorMessage.includes("network") || errorMessage.includes("fetch")) {
+        return NextResponse.json(
+          { error: "Network error. Please check your document URL is accessible and try again." },
+          { status: 500 }
+        );
+      }
+      
+      // Return the actual error message if it's informative
+      if (errorMessage.length < 200) {
+        return NextResponse.json(
+          { error: error.message },
           { status: 500 }
         );
       }
     }
 
     return NextResponse.json(
-      { error: "Failed to process question. Please try again." },
+      { error: "Failed to process question. Please check Vercel logs for details." },
       { status: 500 }
     );
   }

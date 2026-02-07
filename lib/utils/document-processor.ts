@@ -344,12 +344,39 @@ export async function loadDocument(filePath?: string): Promise<string> {
   if (process.env.DOCUMENT_URL) {
     try {
       const url = convertGoogleDriveUrl(process.env.DOCUMENT_URL);
-      const response = await fetch(url);
-      if (response.ok) {
-        return await response.text();
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; DocumentQABot/1.0)',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch document from URL: ${response.status} ${response.statusText}. ` +
+          `Please check that your Google Drive document is set to 'Anyone with the link can view'.`
+        );
       }
+      
+      const text = await response.text();
+      
+      // Check if we got HTML instead of text (common with Google Drive)
+      if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+        throw new Error(
+          `Received HTML instead of document text. ` +
+          `Please ensure your Google Drive document is set to 'Anyone with the link can view' and try using the export URL format.`
+        );
+      }
+      
+      if (text.trim().length === 0) {
+        throw new Error("Document is empty. Please check your document URL.");
+      }
+      
+      return text;
     } catch (error) {
-      console.warn("Failed to fetch document from URL:", error);
+      if (error instanceof Error) {
+        throw new Error(`Failed to load document from URL: ${error.message}`);
+      }
+      throw new Error("Failed to fetch document from URL. Please check the URL is correct and publicly accessible.");
     }
   }
 
