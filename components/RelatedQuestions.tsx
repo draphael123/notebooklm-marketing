@@ -15,7 +15,7 @@ export default function RelatedQuestions({
 
   return (
     <div>
-      <p className="text-sm font-semibold text-gray-700 mb-2">
+      <p className="text-base font-bold text-blue-900 mb-3">
         💡 Related Questions:
       </p>
       <div className="space-y-2">
@@ -23,17 +23,19 @@ export default function RelatedQuestions({
           <button
             key={idx}
             onClick={() => onQuestionClick?.(question)}
-            className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all flex items-center justify-between group"
+            className="w-full text-left p-4 bg-blue-50 border-2 border-blue-200 rounded-xl hover:border-blue-400 hover:bg-blue-100 transition-all flex items-center justify-between group"
           >
-            <span className="text-sm text-gray-700 group-hover:text-blue-600">
+            <span className="text-base text-blue-800 group-hover:text-blue-900 font-medium">
               {question}
             </span>
-            <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all" />
+            <ArrowRight className="w-5 h-5 text-blue-500 group-hover:text-blue-700 opacity-0 group-hover:opacity-100 transition-all" />
           </button>
         ))}
       </div>
     </div>
   );
 }
+
+
 
 

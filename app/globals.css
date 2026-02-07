@@ -18,6 +18,13 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Improve text readability */
+p, span, div {
+  letter-spacing: 0.01em;
 }
 
 @layer utilities {

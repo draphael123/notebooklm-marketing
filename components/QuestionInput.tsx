@@ -35,8 +35,8 @@ export default function QuestionInput({
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="relative">
-        <div className="flex items-start gap-3 bg-white border-2 border-slate-300 rounded-xl p-4 focus-within:border-slate-500 focus-within:shadow-lg transition-all">
-          <Sparkles className="w-5 h-5 text-slate-400 mt-1 flex-shrink-0" />
+        <div className="flex items-start gap-3 bg-white border-2 border-blue-300 rounded-xl p-4 focus-within:border-blue-500 focus-within:shadow-lg transition-all">
+          <Sparkles className="w-6 h-6 text-blue-500 mt-1 flex-shrink-0" />
           <textarea
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
@@ -44,7 +44,7 @@ export default function QuestionInput({
             placeholder="Ask a question about your document..."
             disabled={disabled}
             rows={1}
-            className="flex-1 resize-none border-none outline-none text-slate-900 placeholder-slate-400 disabled:bg-transparent disabled:cursor-not-allowed min-h-[24px] max-h-[200px] overflow-y-auto"
+            className="flex-1 resize-none border-none outline-none text-blue-900 placeholder-blue-400 text-base disabled:bg-transparent disabled:cursor-not-allowed min-h-[28px] max-h-[200px] overflow-y-auto leading-relaxed"
             style={{
               height: "auto",
             }}
@@ -57,13 +57,13 @@ export default function QuestionInput({
           <button
             type="submit"
             disabled={disabled || !question.trim()}
-            className="p-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0"
+            className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0 shadow-md"
             title="Send (Enter)"
           >
             <Send className="w-5 h-5" />
           </button>
         </div>
-        <p className="text-xs text-slate-500 mt-2 ml-1">
+        <p className="text-sm text-blue-600 mt-2 ml-1">
           Press Enter to send, Shift+Enter for new line
         </p>
       </div>
