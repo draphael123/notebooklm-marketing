@@ -29,7 +29,7 @@ export async function generateResponse(
   try {
     const client = getAnthropicClient();
     const response = await client.messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-3-5-sonnet-20240620",
       max_tokens: maxTokens,
       system: systemPrompt,
       messages: messages.map((msg) => ({
@@ -59,7 +59,7 @@ export async function generateStreamingResponse(
   try {
     const client = getAnthropicClient();
     const stream = await client.messages.stream({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-3-5-sonnet-20240620",
       max_tokens: maxTokens,
       system: systemPrompt,
       messages: messages.map((msg) => ({
