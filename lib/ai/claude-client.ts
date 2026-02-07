@@ -105,11 +105,12 @@ export async function generateResponse(
     }
   }
   
-  // If all models failed
+  // If all models failed, provide a clear, concise error
+  const lastErrorMessage = lastError?.message || lastError?.error?.message || "Unknown error";
   throw new Error(
-    `All Claude models failed. Last error: ${lastError?.message || "Unknown error"}. ` +
-    `Tried models: ${uniqueModels.join(", ")}. ` +
-    `Please check your Anthropic API key and account access.`
+    `All Claude models failed. Please check your Anthropic API key and account access. ` +
+    `Last error: ${lastErrorMessage.substring(0, 100)}. ` +
+    `Visit /api/test-claude to see which models work with your account.`
   );
 }
 
