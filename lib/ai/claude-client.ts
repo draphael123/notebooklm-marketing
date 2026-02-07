@@ -29,7 +29,8 @@ export async function generateResponse(
   try {
     const client = getAnthropicClient();
     // Use environment variable or fallback to a known working model
-    const model = process.env.CLAUDE_MODEL || "claude-3-5-sonnet-20240620";
+    // Try without date suffix first, as some accounts may not have dated versions
+    const model = process.env.CLAUDE_MODEL || "claude-3-5-sonnet";
     const response = await client.messages.create({
       model: model,
       max_tokens: maxTokens,
@@ -72,7 +73,8 @@ export async function generateStreamingResponse(
   try {
     const client = getAnthropicClient();
     // Use environment variable or fallback to a known working model
-    const model = process.env.CLAUDE_MODEL || "claude-3-5-sonnet-20240620";
+    // Try without date suffix first, as some accounts may not have dated versions
+    const model = process.env.CLAUDE_MODEL || "claude-3-5-sonnet";
     const stream = await client.messages.stream({
       model: model,
       max_tokens: maxTokens,
