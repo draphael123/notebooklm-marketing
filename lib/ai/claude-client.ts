@@ -46,8 +46,19 @@ export async function generateResponse(
     }
 
     throw new Error("Unexpected response type from Claude");
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error generating response:", error);
+    
+    // Provide helpful error message for model not found
+    if (error?.status === 404 || error?.message?.includes("not_found") || error?.error?.type === "not_found_error") {
+      const model = process.env.CLAUDE_MODEL || "claude-3-5-sonnet";
+      throw new Error(
+        `Model "${model}" not found. ` +
+        `Please check your Anthropic account and set CLAUDE_MODEL to a valid model name. ` +
+        `Common models: claude-3-5-sonnet, claude-3-sonnet-20240229, claude-3-haiku-20240307`
+      );
+    }
+    
     throw error;
   }
 }
