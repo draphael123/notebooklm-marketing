@@ -295,6 +295,42 @@ function isLeadRelevant(content: string): boolean {
 }
 
 /**
+ * Convert Google Drive share link to direct download/export URL
+ */
+function convertGoogleDriveUrl(url: string): string {
+  // If it's already a direct download URL, return as-is
+  if (url.includes('/uc?export=download') || url.includes('/export?format=')) {
+    return url;
+  }
+
+  // Extract file ID from Google Drive share link
+  // Format: https://drive.google.com/file/d/FILE_ID/view
+  // Or: https://docs.google.com/document/d/FILE_ID/edit
+  const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (fileIdMatch) {
+    const fileId = fileIdMatch[1];
+    
+    // Check if it's a Google Doc (document)
+    if (url.includes('docs.google.com/document')) {
+      // Export as plain text
+      return `https://docs.google.com/document/d/${fileId}/export?format=txt`;
+    }
+    
+    // Check if it's a Google Sheet
+    if (url.includes('docs.google.com/spreadsheets')) {
+      // Export as CSV
+      return `https://docs.google.com/spreadsheets/d/${fileId}/export?format=csv`;
+    }
+    
+    // For regular Google Drive files, use direct download
+    return `https://drive.google.com/uc?export=download&id=${fileId}`;
+  }
+
+  // If no file ID found, return original URL (might be a different format)
+  return url;
+}
+
+/**
  * Load and process document
  * In serverless environments, tries to load from environment variable first
  */
@@ -307,7 +343,8 @@ export async function loadDocument(filePath?: string): Promise<string> {
   // Try fetching from URL if DOCUMENT_URL is set
   if (process.env.DOCUMENT_URL) {
     try {
-      const response = await fetch(process.env.DOCUMENT_URL);
+      const url = convertGoogleDriveUrl(process.env.DOCUMENT_URL);
+      const response = await fetch(url);
       if (response.ok) {
         return await response.text();
       }
