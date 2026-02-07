@@ -28,8 +28,10 @@ export async function generateResponse(
 ): Promise<string> {
   try {
     const client = getAnthropicClient();
+    // Use environment variable or fallback to a known working model
+    const model = process.env.CLAUDE_MODEL || "claude-3-5-sonnet-20240620";
     const response = await client.messages.create({
-      model: "claude-3-5-sonnet-20240620",
+      model: model,
       max_tokens: maxTokens,
       system: systemPrompt,
       messages: messages.map((msg) => ({
@@ -58,8 +60,10 @@ export async function generateStreamingResponse(
 ): Promise<void> {
   try {
     const client = getAnthropicClient();
+    // Use environment variable or fallback to a known working model
+    const model = process.env.CLAUDE_MODEL || "claude-3-5-sonnet-20240620";
     const stream = await client.messages.stream({
-      model: "claude-3-5-sonnet-20240620",
+      model: model,
       max_tokens: maxTokens,
       system: systemPrompt,
       messages: messages.map((msg) => ({
